@@ -8,10 +8,19 @@
 
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>database-sqlite</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>hpi</packaging>
 
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/SQLite+Database+Plugin</url>
+  <name>SQLite Database plugin</name>
+  <url>https://wii.jenkins-ci.org/display/JENKINS/SQLite+Database+Plugin</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <dependencies>
     <dependency>
@@ -28,7 +37,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>database</artifactId>
       <classifier>tests</classifier>
-      <version>1.5</version>
+      <version>1.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -52,6 +61,6 @@
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
     <url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
-    <tag>HEAD</tag>
+    <tag>database-sqlite-1.0</tag>
   </scm>
 </project>

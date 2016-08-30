@@ -3,3 +3,6 @@ work
 .idea
 *.db
 *.iml
+pom.xml.releaseBackup
+release.properties
+
