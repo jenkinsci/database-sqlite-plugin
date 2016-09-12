@@ -54,6 +54,10 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
     @Initializer(after = InitMilestone.PLUGINS_STARTED)
     public static void setDefaultPerItemDatabase() {
         Jenkins j = Jenkins.getInstance();
+        if (j == null) {
+            throw new IllegalStateException("Jenkins instance is null!");
+        }
+        
         PerItemDatabaseConfiguration pidbc = j.getExtensionList(GlobalConfiguration.class).get(PerItemDatabaseConfiguration.class);
         if (pidbc != null && pidbc.getDatabase() == null) {
             pidbc.setDatabase(new PerItemSQLiteDatabase());

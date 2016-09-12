@@ -73,6 +73,10 @@ public class GlobalSQLiteDatabase extends Database {
     @Initializer(after=InitMilestone.PLUGINS_STARTED)
     public static void setDefaultGlobalDatabase() {
         Jenkins j = Jenkins.getInstance();
+        if (j == null) {
+            throw new IllegalStateException("Jenkins instance is null!");
+        }
+
         GlobalDatabaseConfiguration gdc = j.getExtensionList(GlobalConfiguration.class).get(GlobalDatabaseConfiguration.class);
         if (gdc != null && gdc.getDatabase() == null) {
             gdc.setDatabase(new GlobalSQLiteDatabase(new File(j.getRootDir(), "global")));

@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?>
 <div>
   Adds SQLite database connectivity to the database plugin
 </div>
