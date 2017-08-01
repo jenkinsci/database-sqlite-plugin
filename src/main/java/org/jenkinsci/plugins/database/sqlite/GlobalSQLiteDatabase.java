@@ -16,6 +16,8 @@ import org.sqlite.JDBC;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 
 /**
@@ -71,15 +73,22 @@ public class GlobalSQLiteDatabase extends Database {
     }
 
     @Initializer(after=InitMilestone.PLUGINS_STARTED)
-    public static void setDefaultGlobalDatabase() {
+    public static void setDefaultGlobalDatabase() throws IOException {
         Jenkins j = Jenkins.getInstance();
         if (j == null) {
             throw new IllegalStateException("Jenkins instance is null!");
         }
 
+        File globalDir = new File(j.getRootDir(), "global");
+        if (!globalDir.exists()) {
+            if (!globalDir.mkdir()) {
+                Files.createDirectory(globalDir.toPath());
+            }
+        }
+
         GlobalDatabaseConfiguration gdc = j.getExtensionList(GlobalConfiguration.class).get(GlobalDatabaseConfiguration.class);
         if (gdc != null && gdc.getDatabase() == null) {
-            gdc.setDatabase(new GlobalSQLiteDatabase(new File(j.getRootDir(), "global")));
+            gdc.setDatabase(new GlobalSQLiteDatabase(globalDir));
         }
     }
 }
