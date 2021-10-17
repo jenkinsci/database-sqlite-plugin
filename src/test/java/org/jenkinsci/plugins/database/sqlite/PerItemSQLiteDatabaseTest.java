@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Arrays;
 import javax.sql.DataSource;
+import org.apache.commons.dbcp2.PoolingDataSource;
 import static org.hamcrest.CoreMatchers.is;
 import org.jenkinsci.plugins.database.PerItemDatabaseConfiguration;
 import org.junit.Test;
@@ -48,6 +49,7 @@ public class PerItemSQLiteDatabaseTest {
             }
         } finally {
             con.close();
+            ((PoolingDataSource) ds).close();
         }
         System.err.println("XXX " + Arrays.asList(p.getRootDir().list()));
     }
