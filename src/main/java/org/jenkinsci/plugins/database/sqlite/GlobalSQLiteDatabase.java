@@ -1,9 +1,16 @@
 package org.jenkinsci.plugins.database.sqlite;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
 import hudson.util.FormValidation;
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import javax.sql.DataSource;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.database.BasicDataSource2;
@@ -13,13 +20,6 @@ import org.jenkinsci.plugins.database.GlobalDatabaseConfiguration;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.sqlite.JDBC;
-
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.sql.SQLException;
 
 /**
  * @author Jiri Holusa
@@ -53,13 +53,14 @@ public class GlobalSQLiteDatabase extends Database {
 
     @Extension
     public static class DescriptorImpl extends DatabaseDescriptor {
+        @NonNull
         @Override
         public String getDisplayName() {
             return "SQLite global database";
         }
 
         public FormValidation doCheckPath(@QueryParameter String value) {
-            Jenkins.getInstance().checkPermission(Jenkins.ADMINISTER);
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
             if (value.length()==0)
                 return FormValidation.ok(); // no value entered yet
@@ -75,10 +76,7 @@ public class GlobalSQLiteDatabase extends Database {
 
     @Initializer(after=InitMilestone.PLUGINS_STARTED)
     public static void setDefaultGlobalDatabase() {
-        Jenkins j = Jenkins.getInstance();
-        if (j == null) {
-            throw new IllegalStateException("Jenkins instance is null!");
-        }
+        Jenkins j = Jenkins.get();
 
         File globalDir = new File(j.getRootDir(), "global");
         if (!Files.isDirectory(globalDir.toPath())) {

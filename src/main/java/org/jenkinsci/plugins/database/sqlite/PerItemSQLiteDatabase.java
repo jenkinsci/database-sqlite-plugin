@@ -1,9 +1,14 @@
 package org.jenkinsci.plugins.database.sqlite;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
 import hudson.model.TopLevelItem;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.WeakHashMap;
+import javax.sql.DataSource;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.database.BasicDataSource2;
@@ -12,11 +17,6 @@ import org.jenkinsci.plugins.database.PerItemDatabaseConfiguration;
 import org.jenkinsci.plugins.database.PerItemDatabaseDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.sqlite.JDBC;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * @author Jiri Holusa
@@ -30,7 +30,7 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
 
     @Override public DataSource getDataSource(TopLevelItem item) throws SQLException {
         if (sources == null) {
-            sources = new WeakHashMap<TopLevelItem,DataSource>();
+            sources = new WeakHashMap<>();
         }
         DataSource source = sources.get(item);
         if (source == null) {
@@ -45,7 +45,9 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
 
     @Extension public static class DescriptorImpl extends PerItemDatabaseDescriptor {
 
-        @Override public String getDisplayName() {
+        @NonNull
+        @Override
+        public String getDisplayName() {
             return "SQLite per-item database";
         }
 
@@ -53,10 +55,7 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
 
     @Initializer(after = InitMilestone.PLUGINS_STARTED)
     public static void setDefaultPerItemDatabase() {
-        Jenkins j = Jenkins.getInstance();
-        if (j == null) {
-            throw new IllegalStateException("Jenkins instance is null!");
-        }
+        Jenkins j = Jenkins.get();
         
         PerItemDatabaseConfiguration pidbc = j.getExtensionList(GlobalConfiguration.class).get(PerItemDatabaseConfiguration.class);
         if (pidbc != null && pidbc.getDatabase() == null) {
