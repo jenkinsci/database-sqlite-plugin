@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.database.sqlite;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
@@ -45,7 +46,9 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
 
     @Extension public static class DescriptorImpl extends PerItemDatabaseDescriptor {
 
-        @Override public String getDisplayName() {
+        @NonNull
+        @Override
+        public String getDisplayName() {
             return "SQLite per-item database";
         }
 

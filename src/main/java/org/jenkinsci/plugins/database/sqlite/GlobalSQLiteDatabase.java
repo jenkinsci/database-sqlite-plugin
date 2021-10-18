@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.database.sqlite;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
@@ -53,6 +54,7 @@ public class GlobalSQLiteDatabase extends Database {
 
     @Extension
     public static class DescriptorImpl extends DatabaseDescriptor {
+        @NonNull
         @Override
         public String getDisplayName() {
             return "SQLite global database";
