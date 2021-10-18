@@ -17,6 +17,7 @@ import org.sqlite.JDBC;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
 
@@ -73,16 +74,18 @@ public class GlobalSQLiteDatabase extends Database {
     }
 
     @Initializer(after=InitMilestone.PLUGINS_STARTED)
-    public static void setDefaultGlobalDatabase() throws IOException {
+    public static void setDefaultGlobalDatabase() {
         Jenkins j = Jenkins.getInstance();
         if (j == null) {
             throw new IllegalStateException("Jenkins instance is null!");
         }
 
         File globalDir = new File(j.getRootDir(), "global");
-        if (!globalDir.exists()) {
-            if (!globalDir.mkdir()) {
+        if (!Files.isDirectory(globalDir.toPath())) {
+            try {
                 Files.createDirectory(globalDir.toPath());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
             }
         }
 
