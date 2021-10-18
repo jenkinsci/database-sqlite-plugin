@@ -49,7 +49,7 @@ public class PerItemSQLiteDatabaseTest {
             }
         } finally {
             con.close();
-            ((PoolingDataSource) ds).close();
+            ((PoolingDataSource<?>) ds).close();
         }
         System.err.println("XXX " + Arrays.asList(p.getRootDir().list()));
     }
