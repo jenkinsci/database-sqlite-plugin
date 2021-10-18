@@ -5,6 +5,10 @@ import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
 import hudson.model.TopLevelItem;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.WeakHashMap;
+import javax.sql.DataSource;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.database.BasicDataSource2;
@@ -13,11 +17,6 @@ import org.jenkinsci.plugins.database.PerItemDatabaseConfiguration;
 import org.jenkinsci.plugins.database.PerItemDatabaseDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.sqlite.JDBC;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * @author Jiri Holusa

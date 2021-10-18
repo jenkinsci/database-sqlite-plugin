@@ -5,6 +5,12 @@ import hudson.Extension;
 import hudson.init.InitMilestone;
 import hudson.init.Initializer;
 import hudson.util.FormValidation;
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import javax.sql.DataSource;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.database.BasicDataSource2;
@@ -14,13 +20,6 @@ import org.jenkinsci.plugins.database.GlobalDatabaseConfiguration;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.sqlite.JDBC;
-
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.sql.SQLException;
 
 /**
  * @author Jiri Holusa
