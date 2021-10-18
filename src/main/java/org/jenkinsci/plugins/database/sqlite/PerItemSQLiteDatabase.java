@@ -30,7 +30,7 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
 
     @Override public DataSource getDataSource(TopLevelItem item) throws SQLException {
         if (sources == null) {
-            sources = new WeakHashMap<TopLevelItem,DataSource>();
+            sources = new WeakHashMap<>();
         }
         DataSource source = sources.get(item);
         if (source == null) {
