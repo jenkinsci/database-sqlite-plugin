@@ -59,7 +59,7 @@ public class GlobalSQLiteDatabase extends Database {
         }
 
         public FormValidation doCheckPath(@QueryParameter String value) {
-            Jenkins.getInstance().checkPermission(Jenkins.ADMINISTER);
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
             if (value.length()==0)
                 return FormValidation.ok(); // no value entered yet
@@ -75,10 +75,7 @@ public class GlobalSQLiteDatabase extends Database {
 
     @Initializer(after=InitMilestone.PLUGINS_STARTED)
     public static void setDefaultGlobalDatabase() {
-        Jenkins j = Jenkins.getInstance();
-        if (j == null) {
-            throw new IllegalStateException("Jenkins instance is null!");
-        }
+        Jenkins j = Jenkins.get();
 
         File globalDir = new File(j.getRootDir(), "global");
         if (!Files.isDirectory(globalDir.toPath())) {
