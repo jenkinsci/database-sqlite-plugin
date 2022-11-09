@@ -67,7 +67,7 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>database</artifactId>
-      <version>148.v4a_ff2ca_608b_7</version>
+      <version>166.vf8eb_e4c80a_5d</version>
     </dependency>
   </dependencies>
 
