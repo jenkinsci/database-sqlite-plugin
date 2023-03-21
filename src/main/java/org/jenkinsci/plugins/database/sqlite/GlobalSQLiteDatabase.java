@@ -19,6 +19,7 @@ import org.jenkinsci.plugins.database.DatabaseDescriptor;
 import org.jenkinsci.plugins.database.GlobalDatabaseConfiguration;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.verb.POST;
 import org.sqlite.JDBC;
 
 /**
@@ -59,6 +60,7 @@ public class GlobalSQLiteDatabase extends Database {
             return "SQLite global database";
         }
 
+        @POST
         public FormValidation doCheckPath(@QueryParameter String value) {
             Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
