@@ -15,12 +15,15 @@ import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
 public class PerItemSQLiteDatabaseTest {
-    
-    @Rule public JenkinsRule j = new JenkinsRule();
 
-    @Test public void basics() throws Exception {
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
+
+    @Test
+    public void basics() throws Exception {
         FreeStyleProject p = j.jenkins.createProject(FreeStyleProject.class, "somejob");
-        try (PoolingDataSource<?> ds = (PoolingDataSource<?>) PerItemDatabaseConfiguration.find().getDataSource(p)) {
+        try (PoolingDataSource<?> ds =
+                (PoolingDataSource<?>) PerItemDatabaseConfiguration.find().getDataSource(p)) {
             try (Connection con = ds.getConnection()) {
                 try (Statement st = con.createStatement()) {
                     st.execute("create table FOO (a int, b int )");
@@ -38,5 +41,4 @@ public class PerItemSQLiteDatabaseTest {
         }
         System.err.println("XXX " + Arrays.asList(p.getRootDir().list()));
     }
-
 }

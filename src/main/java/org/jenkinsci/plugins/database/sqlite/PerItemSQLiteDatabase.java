@@ -21,14 +21,15 @@ import org.sqlite.JDBC;
 /**
  * @author Jiri Holusa
  */
-public class PerItemSQLiteDatabase extends PerItemDatabase  {
-    private transient Map<TopLevelItem,DataSource> sources;
+public class PerItemSQLiteDatabase extends PerItemDatabase {
+    private transient Map<TopLevelItem, DataSource> sources;
     private static final String DB_FILENAME = "db.db";
 
-    @DataBoundConstructor public PerItemSQLiteDatabase() {
-    }
+    @DataBoundConstructor
+    public PerItemSQLiteDatabase() {}
 
-    @Override public DataSource getDataSource(TopLevelItem item) throws SQLException {
+    @Override
+    public DataSource getDataSource(TopLevelItem item) throws SQLException {
         if (sources == null) {
             sources = new WeakHashMap<>();
         }
@@ -43,24 +44,24 @@ public class PerItemSQLiteDatabase extends PerItemDatabase  {
         return source;
     }
 
-    @Extension public static class DescriptorImpl extends PerItemDatabaseDescriptor {
+    @Extension
+    public static class DescriptorImpl extends PerItemDatabaseDescriptor {
 
         @NonNull
         @Override
         public String getDisplayName() {
             return "SQLite per-item database";
         }
-
     }
 
     @Initializer(after = InitMilestone.PLUGINS_STARTED)
     public static void setDefaultPerItemDatabase() {
         Jenkins j = Jenkins.get();
-        
-        PerItemDatabaseConfiguration pidbc = j.getExtensionList(GlobalConfiguration.class).get(PerItemDatabaseConfiguration.class);
+
+        PerItemDatabaseConfiguration pidbc =
+                j.getExtensionList(GlobalConfiguration.class).get(PerItemDatabaseConfiguration.class);
         if (pidbc != null && pidbc.getDatabase() == null) {
             pidbc.setDatabase(new PerItemSQLiteDatabase());
         }
     }
-
 }

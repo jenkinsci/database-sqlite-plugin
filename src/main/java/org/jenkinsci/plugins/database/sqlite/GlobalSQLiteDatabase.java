@@ -42,7 +42,7 @@ public class GlobalSQLiteDatabase extends Database {
 
     @Override
     public synchronized DataSource getDataSource() throws SQLException {
-        if (source==null) {
+        if (source == null) {
             BasicDataSource2 fac = new BasicDataSource2();
             fac.setDriverClass(JDBC.class);
             String path = this.path.toURI().toString();
@@ -64,19 +64,22 @@ public class GlobalSQLiteDatabase extends Database {
         public FormValidation doCheckPath(@QueryParameter String value) {
             Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
-            if (value.length()==0)
-                return FormValidation.ok(); // no value entered yet
+            if (value.length() == 0) {
+                // no value entered yet
+                return FormValidation.ok();
+            }
 
-            if (new File(value, DB_FILENAME).exists())
+            if (new File(value, DB_FILENAME).exists()) {
                 return FormValidation.ok("This database already exists.");
-            else if (new File(value).isFile())
+            } else if (new File(value).isFile()) {
                 return FormValidation.error("%s is a file; must be a directory.", value);
-            else
+            } else {
                 return FormValidation.ok("This database doesn't exist yet. It will be created.");
+            }
         }
     }
 
-    @Initializer(after=InitMilestone.PLUGINS_STARTED)
+    @Initializer(after = InitMilestone.PLUGINS_STARTED)
     public static void setDefaultGlobalDatabase() {
         Jenkins j = Jenkins.get();
 
@@ -89,7 +92,8 @@ public class GlobalSQLiteDatabase extends Database {
             }
         }
 
-        GlobalDatabaseConfiguration gdc = j.getExtensionList(GlobalConfiguration.class).get(GlobalDatabaseConfiguration.class);
+        GlobalDatabaseConfiguration gdc =
+                j.getExtensionList(GlobalConfiguration.class).get(GlobalDatabaseConfiguration.class);
         if (gdc != null && gdc.getDatabase() == null) {
             gdc.setDatabase(new GlobalSQLiteDatabase(globalDir));
         }
