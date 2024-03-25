@@ -41,7 +41,7 @@
   <properties>
     <revision>1.6</revision>
     <changelist>-SNAPSHOT</changelist>
-    <jenkins.version>2.387.3</jenkins.version>
+    <jenkins.version>2.414.3</jenkins.version>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <spotless.check.skip>false</spotless.check.skip>
   </properties>
@@ -50,8 +50,8 @@
     <dependencies>
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
-        <artifactId>bom-2.387.x</artifactId>
-        <version>2543.vfb_1a_5fb_9496d</version>
+        <artifactId>bom-2.414.x</artifactId>
+        <version>2928.ved44ea_84e034</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -62,7 +62,6 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>database</artifactId>
-      <version>191.vd5981b_97a_5fa_</version>
     </dependency>
     <dependency>
       <groupId>org.xerial</groupId>
