@@ -64,7 +64,7 @@ public class GlobalSQLiteDatabase extends Database {
         public FormValidation doCheckPath(@QueryParameter String value) {
             Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
-            if (value.length() == 0) {
+            if (value.isEmpty()) {
                 // no value entered yet
                 return FormValidation.ok();
             }
